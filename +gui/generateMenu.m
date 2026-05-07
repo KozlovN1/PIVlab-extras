@@ -35,7 +35,7 @@ uimenu(m8,'Label','Velocity based validation','Callback',@validate.vector_val_Ca
 uimenu(m8,'Label','Image based validation','Callback',@validate.image_val_Callback);
 m9 = uimenu(MainWindow,'Label','Plot');
 uimenu(m9,'Label','Spatial: Derive parameters / modify data','Callback',@plot.derivs_Callback,'Accelerator','D');
-% TODO: menu element of interest -->
+% !!! menu element of interest -->
 uimenu(m9,'Label','Temporal: Derive parameters','Callback',@plot.temporal_derivs_Callback);
 % <--
 uimenu(m9,'Label','Modify plot appearance','Callback',@plot.modif_plot_Callback,'Accelerator','M');

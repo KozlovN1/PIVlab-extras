@@ -1916,7 +1916,7 @@ handles.detect_cam = uicontrol(handles.multip21,'Style','pushbutton','String','D
 item=[0 item(2)+item(4)+margin parentitem(3) 2];
 handles.detect_dongle = uicontrol(handles.multip21,'Style','pushbutton','String','Detect serial dongle','Units','characters', 'Fontunits','points','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@acquisition.serial_info,'Tag','detect_dongle','TooltipString','Detect if driver for the dongle is installed');
 
-
+% !!! Bloc of interest -->
 %% Multip22
 handles.multip22 = uipanel(MainWindow, 'Units','characters', 'Position', [0+margin Figure_Size(4)-panelheightpanels-margin panelwidth panelheightpanels],'title','Derive Temporal Parameters', 'Tag','multip22','fontweight','bold');
 parentitem=get(handles.multip22, 'Position');
@@ -1934,8 +1934,10 @@ handles.selectedFramesMean = uicontrol(handles.multip22,'Style','edit','String',
 item=[0 item(2)+item(4)+margin/4 parentitem(3) 2];
 handles.append_replace = uicontrol(handles.multip22,'Style','popupmenu', 'Value', 1, 'String',{'append to dataset' 'replace all existing'},'Units','characters', 'Fontunits','points','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Tag','append_replace','TooltipString','Append the newly calculated vector field to the current session, or replace previously calculated vector fields');
 
+% !!! This is the example -->
 item=[0 item(2)+item(4)+margin/2 parentitem(3) 2];
 handles.meanmaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate mean','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',{@plot.temporal_operation_Callback, 1}, 'Tag','meanmaker','TooltipString','Calculate mean velocities and append an extra frame with the results');
+% <--
 
 item=[0 item(2)+item(4)+margin/4 parentitem(3) 2];
 handles.summaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate sum','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',{@plot.temporal_operation_Callback, 0}, 'Tag','summaker','TooltipString','Calculate sum of displacements and append an extra frame with the results');
@@ -1948,6 +1950,10 @@ handles.tkemaker = uicontrol(handles.multip22,'Style','pushbutton','String','Cal
 
 item=[0 item(2)+item(4)+margin parentitem(3) 2];
 handles.remove_temporal_frame = uicontrol(handles.multip22,'Style','pushbutton','String','Remove current','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@plot.remove_temporal_frame_Callback, 'Tag','remove_temporal_frame','TooltipString','Remove the currently displayed frame');
+
+% TODO: add pushbuttons here -->
+
+% <--
 
 
 %% multip23
