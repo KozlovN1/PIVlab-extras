@@ -1948,16 +1948,20 @@ handles.meanmaker = uicontrol(handles.multip22,'Style','pushbutton', ...
 % <--
 
 item=[0 item(2)+item(4)+margin/4 parentitem(3) 2];
-handles.summaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate sum','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',{@plot.temporal_operation_Callback, 0}, 'Tag','summaker','TooltipString','Calculate sum of displacements and append an extra frame with the results');
+handles.summaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate sum','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',{@plot.temporal_operation_Callback, 0}, 'Tag','summaker','TooltipString','Calculate sum of displacements and append an extra frame with the results');
 
 item=[0 item(2)+item(4)+margin/4 parentitem(3) 2];
-handles.stdmaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate stdev','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',{@plot.temporal_operation_Callback, 2}, 'Tag','stdmaker','TooltipString','Calculate standard deviation of displacements and append an extra frame with the results');
+handles.stdmaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate stdev','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',{@plot.temporal_operation_Callback, 2}, 'Tag','stdmaker','TooltipString','Calculate standard deviation of displacements and append an extra frame with the results');
 
 item=[0 item(2)+item(4)+margin/4 parentitem(3) 2];
-handles.tkemaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate TKE','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',{@plot.temporal_operation_Callback, 3}, 'Tag','tkemaker','TooltipString','Calculate turbulent kinetic energy and append an extra frame with the results');
+handles.tkemaker = uicontrol(handles.multip22,'Style','pushbutton','String','Calculate TKE','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',{@plot.temporal_operation_Callback, 3}, 'Tag','tkemaker','TooltipString','Calculate turbulent kinetic energy and append an extra frame with the results');
 
 item=[0 item(2)+item(4)+margin parentitem(3) 2];
-handles.remove_temporal_frame = uicontrol(handles.multip22,'Style','pushbutton','String','Remove current','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@plot.remove_temporal_frame_Callback, 'Tag','remove_temporal_frame','TooltipString','Remove the currently displayed frame');
+handles.remove_temporal_frame = uicontrol(handles.multip22,'Style','pushbutton','String','Remove current','Units','characters','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',@plot.remove_temporal_frame_Callback, 'Tag','remove_temporal_frame','TooltipString','Remove the currently displayed frame');
 
 % TODO: add pushbuttons here -->
 item=[0 item(2)+item(4)+margin parentitem(3)/3 2];
@@ -1968,7 +1972,8 @@ handles.frames_per_period = uicontrol(handles.multip22,'Style','edit', ...
 handles.phase_meanmaker = uicontrol(handles.multip22,'Style','pushbutton', ...
     'String','Calculate phase mean','Units','characters', ...
     'Position',[item(1)+item(3) parentitem(4)-item(4)-margin-item(2) item(3)*2-margin item(4)], ...
-    'Callback',{@plot.phase_mean_Callback, 1}, 'Tag','phase_meanmaker','TooltipString','Calculate mean velocities for each oscillation phase and append extra frames with the results for one period');
+    'Callback',@plot.phase_mean_Callback, 'Tag','phase_meanmaker', ...
+    'TooltipString','Calculate mean velocities for each oscillation phase and append extra frames with the results for one period');
 % <--
 
 
