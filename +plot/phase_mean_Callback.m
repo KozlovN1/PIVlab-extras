@@ -31,8 +31,12 @@ exist('resultslist','var')
 disp(resultslist)
 
 % Захерачить всё в resultslist{}
-for i=1:n
+for i=1:size(filepath,1)/2-n
     % TODO: put some meaningful values instead ones & zeros
+    for j=1:n
+        % out_mean_u= make_by_element_sum_then_average (resultslist{1,j});
+        % out_mean_v= make_by_element_sum_then_average (resultslist{2,j});
+    end
     out_mean_u=ones(i);
     out_mean_v=zeros(i);
     resultslist{3,size(filepath,1)/2+i}=out_mean_u;
