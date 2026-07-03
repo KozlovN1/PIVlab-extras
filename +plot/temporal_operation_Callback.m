@@ -187,6 +187,11 @@ if isempty(resultslist)==0
                     if type == 4
                         disp("Calculating the phase mean")
                         get(handles.frames_per_period,'string')
+                        
+                        % TODO: -->
+                        % resultslist{3,size(filepath,1)/2+1}=out_mean_u;
+						% resultslist{4,size(filepath,1)/2+1}=out_mean_v;
+                        % <--
                     end
 % <--
 					if type==3
