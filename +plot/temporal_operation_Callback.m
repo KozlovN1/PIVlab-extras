@@ -185,12 +185,23 @@ if isempty(resultslist)==0
 					eval(['vmittelselected=vmittel(:,:,[' str ']);']);
 % TODO: Calculate the phase average -->
                     if type == 4
-                        disp("Calculating the phase mean")
-                        get(handles.frames_per_period,'string')
+                        fprintf("Calculating the phase mean\n")
+                        n=get(handles.frames_per_period,'string');
+                        n_phases=eval(n);
                         
                         % TODO: -->
-                        % resultslist{3,size(filepath,1)/2+1}=out_mean_u;
-						% resultslist{4,size(filepath,1)/2+1}=out_mean_v;
+                        for i=1:n_phases
+                            u1=zeros([size(umittelselected{1}),size(umittelselected,1)]);
+                            v1=zeros([size(vmittelselected{1}),size(vmittelselected,1)]);
+                            for j=1:n_phases:size(umittelselected,1)
+                                u1(:,:,j)=umittelselected{j};
+                                v1(:,:,j)=vmittelselected{j};
+                            end
+                            out_mean_u=mean(u1,3,'omitnan');
+                            out_mean_v=mean(v1,3,'omitnan');
+                            resultslist{3,size(filepath,1)/2+i}=out_mean_u;
+                            resultslist{4,size(filepath,1)/2+i}=out_mean_v;
+                        end
                         % <--
                     end
 % <--
