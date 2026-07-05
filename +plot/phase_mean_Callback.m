@@ -1,12 +1,12 @@
 function phase_mean_Callback(~,~,~)
-handles=gui.gethand;
-filepath=gui.retr('filepath');
-filename=gui.retr('filename');
-framenum=gui.retr('framenum');
-framepart=gui.retr('framepart');
-resultslist=gui.retr('resultslist');
-
-str = strrep(get(handles.selectedFramesMean,'string'),'-',':');
+% handles=gui.gethand;
+% filepath=gui.retr('filepath');
+% filename=gui.retr('filename');
+% framenum=gui.retr('framenum');
+% framepart=gui.retr('framepart');
+% resultslist=gui.retr('resultslist');
+% 
+% str = strrep(get(handles.selectedFramesMean,'string'),'-',':');
 
 % % ФИГНЯ -->
 % clc
@@ -14,7 +14,7 @@ str = strrep(get(handles.selectedFramesMean,'string'),'-',':');
 % 
 n=get(handles.frames_per_period,'string');
 n_phases=eval(n);
-fprintf('%s %d %s\n',"Let's have sex", n_phases, "times.")
+fprintf('%s %d %s\n',"Let's do it", n_phases, "times.")
 % fprintf("I count: ")
 % 
 % for i=1:n
