@@ -196,8 +196,8 @@ if isempty(resultslist)==0
 					    % eval(['filepathselected=filepathselected([' str '],:);']);
 					    
                         disp(size(umittelselected)) % DEBUG
-                        fprintf("VISUALIZING") % DEBUG
-                        fig = figure(); % DEBUG
+                        % fprintf("VISUALIZING\n") % DEBUG
+                        % fig = figure(); % DEBUG
                         % TODO: check out -->
                         for i=1:n_phases
                             % TODO: optimize, use filepath_len instead size(filepath,1)
@@ -214,20 +214,23 @@ if isempty(resultslist)==0
                             % average the current phase
                             out_mean_u=mean(u1,3,'omitnan');
                             out_mean_v=mean(v1,3,'omitnan');
-                          % DEBUG -->
-                            figure(fig)
-                            quiver(resultslist{1},resultslist{2},out_mean_u,out_mean_v)
-                            axis image
-                            axis ij
-                            drawnow
-                          % <--
+                          % % DEBUG -->
+                          %   figure(fig)
+                          %   quiver(resultslist{1},resultslist{2},out_mean_u,out_mean_v)
+                          %   axis image
+                          %   axis ij
+                          %   drawnow
+                          % % <--
                             % return results
-                            resultslist{3,size(filepath,1)/2+i}=out_mean_u;
-                            resultslist{4,size(filepath,1)/2+i}=out_mean_v;
+                            resultslist{3,filepath_len/2+i}=out_mean_u;
+                            resultslist{4,filepath_len/2+i}=out_mean_v;
                             % % complete other data
+                            resultslist{5,filepath_len/2+i}=typevectoralle;
+					        resultslist{1,filepath_len/2+i}=x;
+					        resultslist{2,filepath_len/2+i}=y;
                             % filepath{size(filepath,1)+1,1}=filepathselected{1,1};
 					        % filepath{size(filepath,1)+1,1}=filepathselected{1,1};
-                            % ismean(size(resultslist,2),1)=1;
+                            ismean(filepath_len/2+i,1)=1;
                         end
                         % <--
                     % end
@@ -303,11 +306,24 @@ if isempty(resultslist)==0
 						        video_frame_selection(end+1,1)=video_frame_selection(strnum(end)*2);
 						        gui.put('video_frame_selection',video_frame_selection);
 					        end
-                            filename{size(filename,1)+1,1}=['MEAN of phase: ' num2str(i) 
-                                                                ' of ' num2str(n_phases)];
-						    filename{size(filename,1)+1,1}=['MEAN of phase: ' num2str(i) 
-                                                                ' of ' num2str(n_phases)];
-                            ismean(size(resultslist,2),1)=1;
+                            filename{size(filename,1)+1,1}=['MEAN of phase: ' num2str(i) ' of ' num2str(n_phases)];
+						    filename{size(filename,1)+1,1}=['MEAN of phase: ' num2str(i) ' of ' num2str(n_phases)];
+                            % ismean(size(resultslist,2),1)=1;
+                            
+                            gui.put('ismean',ismean);
+				            gui.put ('resultslist', resultslist);
+				            gui.put ('filepath', filepath);
+				            gui.put ('filename', filename);
+				            gui.put ('framenum', framenum);
+				            gui.put ('framepart', framepart);
+				            gui.put ('typevector', typevector);
+				            gui.sliderrange(1)
+				            try
+					            set (handles.fileselector,'value',get (handles.fileselector,'max'));
+                            catch ME
+                                disp(ME) % DEBUG
+				            end
+				            gui.sliderdisp(gui.retr('pivlab_axis'))
                         end
                     else
 					    filepath{size(filepath,1)+1,1}=filepathselected{1,1};
@@ -341,21 +357,36 @@ if isempty(resultslist)==0
 						    filename{size(filename,1)+1,1}=['SUM of frames ' str];
 					    end
 					    ismean(size(resultslist,2),1)=1;
-                    end
+                    % end
 % <--
-					gui.put('ismean',ismean);
-					gui.put ('resultslist', resultslist);
-					gui.put ('filepath', filepath);
-					gui.put ('filename', filename);
-					gui.put ('framenum', framenum);
-					gui.put ('framepart', framepart);
-					gui.put ('typevector', typevector);
-					gui.sliderrange(1)
-					try
-						set (handles.fileselector,'value',get (handles.fileselector,'max'));
-					catch
-					end
-					gui.sliderdisp(gui.retr('pivlab_axis'))
+					    gui.put('ismean',ismean);
+					    gui.put ('resultslist', resultslist);
+					    gui.put ('filepath', filepath);
+					    gui.put ('filename', filename);
+					    gui.put ('framenum', framenum);
+					    gui.put ('framepart', framepart);
+					    gui.put ('typevector', typevector);
+					    gui.sliderrange(1)
+					    try
+						    set (handles.fileselector,'value',get (handles.fileselector,'max'));
+                        catch ME
+                            disp(ME) % DEBUG
+					    end
+					    gui.sliderdisp(gui.retr('pivlab_axis'))
+                    end
+                    % DEBUG -->
+                    disp(size(resultslist)) % DEBUG
+                    fprintf("VISUALIZING\n") % DEBUG
+                    fig = figure(); % DEBUG
+                    for i=1:n_phases
+                        figure(fig)
+                        quiver(resultslist{1,filepath_len/2+i},resultslist{2,filepath_len/2+i}, ...
+                                resultslist{3,filepath_len/2+i},resultslist{4,filepath_len/2+i})
+                        axis image
+                        axis ij
+                        drawnow
+                    end
+                    % <--
 				end
 			else %user tried to average analyses with different sizes
 				errordlg('All analyses of one session have to be of the same size and have to be analyzed with identical PIV settings.','Averaging / summing not possible...')
