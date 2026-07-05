@@ -193,7 +193,7 @@ if isempty(resultslist)==0
                         for i=1:n_phases
                             u1=zeros([size(umittelselected{1}),size(umittelselected,1)]);
                             v1=zeros([size(vmittelselected{1}),size(vmittelselected,1)]);
-                            for j=1:n_phases:size(umittelselected,1)
+                            for j=i:n_phases:size(umittelselected,1)
                                 u1(:,:,j)=umittelselected{j};
                                 v1(:,:,j)=vmittelselected{j};
                             end
@@ -256,6 +256,8 @@ if isempty(resultslist)==0
 					eval(['filepathselected=filepathselected([' str '],:);']);
 					filepath{size(filepath,1)+1,1}=filepathselected{1,1};
 					filepath{size(filepath,1)+1,1}=filepathselected{1,1};
+% TODO: about putting frames back into GUI; 
+% add a for loop somewhere -->
 					if gui.retr('video_selection_done') == 0
 						framenum (size(framenum,1)+1,1)=framenum(1,1);
 						framenum (size(framenum,1)+1,1)=framenum(1,1);
@@ -285,6 +287,7 @@ if isempty(resultslist)==0
 						filename{size(filename,1)+1,1}=['SUM of frames ' str];
 					end
 					ismean(size(resultslist,2),1)=1;
+% <--
 					gui.put('ismean',ismean);
 					gui.put ('resultslist', resultslist);
 					gui.put ('filepath', filepath);
