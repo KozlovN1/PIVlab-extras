@@ -1331,11 +1331,18 @@ handles.load_polyline = uicontrol(handles.multip12,'Style','pushbutton','String'
 item=[0 item(2)+item(4)+margin parentitem(3) 1];
 handles.text56 = uicontrol(handles.multip12,'Style','text','String','Data to extract:','Units','characters', 'HorizontalAlignment','left','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Tag','text56');
 
+% TODO: -->
 item=[0 item(2)+item(4) parentitem(3) 2];
-handles.extraction_choice = uicontrol(handles.multip12,'Style','popupmenu','String','N/A','Units','characters', 'HorizontalAlignment','left','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@extract.extraction_choice_Callback,'Tag','extraction_choice','TooltipString','What parameter do you want to extract along the line / circle?');
+handles.extraction_choice = uicontrol(handles.multip12,'Style','popupmenu', ...
+    'String','N/A','Units','characters', 'HorizontalAlignment','left', ...
+    'Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',@extract.extraction_choice_Callback,'Tag','extraction_choice','TooltipString','What parameter do you want to extract along the line / circle?');
 
 item=[0 item(2)+item(4)+margin parentitem(3)/2 2];
-handles.plot_data = uicontrol(handles.multip12,'Style','pushbutton','String','Extract data','Units','characters', 'Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@extract.plot_data_Callback,'Tag','plot_data','TooltipString','When you finished drawing a line / circle, you can plot data along the line / circle by pushing this button');
+handles.plot_data = uicontrol(handles.multip12,'Style','pushbutton', ...
+    'String','Extract data','Units','characters', 'Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',@extract.plot_data_Callback,'Tag','plot_data','TooltipString','When you finished drawing a line / circle, you can plot data along the line / circle by pushing this button');
+% <--
 
 item=[parentitem(3)/2 item(2) parentitem(3)/2 2];
 handles.clear_plot = uicontrol(handles.multip12,'Style','pushbutton','String','Clear data','Units','characters', 'Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@extract.clear_plot_Callback,'Tag','clear_plot','TooltipString','Clear line / circle data');

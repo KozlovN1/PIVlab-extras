@@ -231,8 +231,12 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 					for m=1:numel(length)
 						distance(m,:)=linspace(0,length(m),size(cu,2))'; % %in pixeln...
 					end
-				end
-		end
+                end
+            % TODO: -->
+            case 12 % normal to polyline
+                disp("Normal projection")
+            % <--
+        end
 		%% Plotting
 		if ~strcmp(extract_type,'extract_circle_series') %user did not choose circle series
 			calxy=gui.retr('calxy');
