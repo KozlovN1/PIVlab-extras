@@ -67,6 +67,7 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 				distance=linspace(0,length,size(c,1))';
 			case 11 %tangent
 				if ~strcmp(extract_type,'extract_circle_series')
+                    % !!! example -->
 					if size(resultslist,1)>6 %filtered exists
 						if size(resultslist,1)>10 && numel(resultslist{10,currentframe}) > 0 %smoothed exists
 							u=resultslist{10,currentframe};
@@ -128,6 +129,7 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 					cx=cx';
 					cy=cy';
 					distance=linspace(0,length,size(cu,1))';
+                    % <--
 				end
 				%% circle series --> can only be tangent velocity
 				if strcmp(extract_type,'extract_circle_series') %user chose circle series
