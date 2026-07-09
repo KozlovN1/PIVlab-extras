@@ -42,7 +42,9 @@ uimenu(m9,'Label','Modify plot appearance','Callback',@plot.modif_plot_Callback,
 uimenu(m9,'Label','Streamlines','Callback',@plot.streamlines_Callback);
 uimenu(m9,'Label','Markers / distance / angle','Callback',@extract.dist_angle_Callback,'Accelerator','T');
 m10 = uimenu(MainWindow,'Label','Extractions');
+% !!! menu element of interest -->
 uimenu(m10,'Label','Parameters from poly-line','Callback',@extract.poly_extract_Callback,'Accelerator','P');
+% <--
 uimenu(m10,'Label','Parameters from area','Callback',@extract.area_panel_activation_Callback,'Accelerator','Q');
 m11 = uimenu(MainWindow,'Label','Statistics');
 uimenu(m11,'Label','Statistics','Callback',@plot.statistics_Callback,'Accelerator','B');
