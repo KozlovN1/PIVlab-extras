@@ -66,6 +66,7 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 				[cx, cy, c] = improfile(maptoget,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
 				distance=linspace(0,length,size(c,1))';
 			case 11 %tangent
+            % case {11,12} %tangent, normal
 				if ~strcmp(extract_type,'extract_circle_series')
                     % !!! example -->
 					if size(resultslist,1)>6 %filtered exists
@@ -113,7 +114,15 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 						deltax(1,i)=cx(1,i)-cx(1,i-1);
 						deltay(1,i)=cy(1,i)-cy(1,i-1);
 						laenge(1,i)=sqrt(deltax(1,i)*deltax(1,i)+deltay(1,i)*deltay(1,i));
-						alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
+                        alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
+						% % Kozlov N. -->
+                        % if extractwhat==11
+                        %     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
+                        % elseif extractwhat==12
+                        %     % turn 90 for the normal projection
+                        %     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)))+pi/2;
+                        % end
+                        % % <--
 						if deltay(1,i) < 0
 							sinalpha(1,i)=sin(alpha(1,i));
 						else
@@ -281,15 +290,16 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 				for i=2:size(cx,2)
 					deltax(1,i)=cx(1,i)-cx(1,i-1);
 					deltay(1,i)=cy(1,i)-cy(1,i-1);
-					laenge(1,i)=sqrt(deltax(1,i)*deltax(1,i)+deltay(1,i)*deltay(1,i));
+					laenge(1,i)=sqrt(deltax(1,i)^2+deltay(1,i)^2);
 					% turn 90 degrees -->
                     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)))+pi/2;
                     % <--
-					if deltay(1,i) < 0
-						sinalpha(1,i)=sin(alpha(1,i));
-					else
-						sinalpha(1,i)=sin(alpha(1,i))*-1;
-					end
+					% if deltay(1,i) < 0
+					% 	sinalpha(1,i)=sin(alpha(1,i));
+					% else
+					% 	sinalpha(1,i)=sin(alpha(1,i))*-1;
+                    % end
+                    sinalpha(1,i)=sin(alpha(1,i));
 					cosalpha(1,i)=cos(alpha(1,i));
 				end
 				sinalpha(1,1)=sinalpha(1,2);
