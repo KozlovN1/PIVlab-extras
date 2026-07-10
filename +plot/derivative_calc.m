@@ -187,7 +187,7 @@ if size(resultslist,2)>=frame && numel(resultslist{1,frame})>0 %analysis exists
 	if deriv==12
 		derived{11,frame}=resultslist{12,frame}; % correlation map
 		%disp('corrmap')
-	end
+    end
 
 	gui.put('subtr_u', subtr_u);
 	gui.put('subtr_v', subtr_v);

@@ -235,8 +235,71 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 					end
                 end
             % TODO: -->
-            case 12 % normal to polyline
-                disp("Normal projection")
+            case 12 % normal to polyline (Kozlov N.)
+                disp("Normal projection") % DEBUG
+                if size(resultslist,1)>6 %filtered exists
+					if size(resultslist,1)>10 && numel(resultslist{10,currentframe}) > 0 %smoothed exists
+						u=resultslist{10,currentframe};
+						v=resultslist{11,currentframe};
+						typevector=resultslist{9,currentframe};
+						if numel(typevector)==0%happens if user smoothes sth without NaN and without validation
+							typevector=resultslist{5,currentframe};
+						end
+					else
+						u=resultslist{7,currentframe};
+						if size(u,1)>1
+							v=resultslist{8,currentframe};
+							typevector=resultslist{9,currentframe};
+						else
+							u=resultslist{3,currentframe};
+							v=resultslist{4,currentframe};
+							typevector=resultslist{5,currentframe};
+						end
+					end
+				else
+					u=resultslist{3,currentframe};
+					v=resultslist{4,currentframe};
+					typevector=resultslist{5,currentframe};
+				end
+				calu=gui.retr('calu');calv=gui.retr('calv');
+				u=u*calu-gui.retr('subtr_u');
+				v=v*calv-gui.retr('subtr_v');
+
+				u=plot.rescale_maps_nan(u,0,currentframe);
+				v=plot.rescale_maps_nan(v,0,currentframe);
+
+				[cx, cy, cu] = improfile(u,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
+				cv = improfile(v,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
+				cx=cx';
+				cy=cy';
+				deltax=zeros(1,size(cx,2)-1);
+				deltay=zeros(1,size(cx,2)-1);
+				laenge=zeros(1,size(cx,2)-1);
+				alpha=zeros(1,size(cx,2)-1);
+				sinalpha=zeros(1,size(cx,2)-1);
+				cosalpha=zeros(1,size(cx,2)-1);
+				for i=2:size(cx,2)
+					deltax(1,i)=cx(1,i)-cx(1,i-1);
+					deltay(1,i)=cy(1,i)-cy(1,i-1);
+					laenge(1,i)=sqrt(deltax(1,i)*deltax(1,i)+deltay(1,i)*deltay(1,i));
+					% turn 90 degrees -->
+                    alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)))+pi/2;
+                    % <--
+					if deltay(1,i) < 0
+						sinalpha(1,i)=sin(alpha(1,i));
+					else
+						sinalpha(1,i)=sin(alpha(1,i))*-1;
+					end
+					cosalpha(1,i)=cos(alpha(1,i));
+				end
+				sinalpha(1,1)=sinalpha(1,2);
+				cosalpha(1,1)=cosalpha(1,2);
+				cu=cu.*cosalpha';
+				cv=cv.*sinalpha';
+				c=cu-cv;
+				cx=cx';
+				cy=cy';
+				distance=linspace(0,length,size(cu,1))';
             % <--
         end
 		%% Plotting

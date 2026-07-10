@@ -1331,7 +1331,7 @@ handles.load_polyline = uicontrol(handles.multip12,'Style','pushbutton','String'
 item=[0 item(2)+item(4)+margin parentitem(3) 1];
 handles.text56 = uicontrol(handles.multip12,'Style','text','String','Data to extract:','Units','characters', 'HorizontalAlignment','left','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Tag','text56');
 
-% TODO: -->
+% !!! -->
 item=[0 item(2)+item(4) parentitem(3) 2];
 handles.extraction_choice = uicontrol(handles.multip12,'Style','popupmenu', ...
     'String','N/A','Units','characters', 'HorizontalAlignment','left', ...
@@ -1356,8 +1356,12 @@ handles.extractLineAll = uicontrol(handles.multip12,'Style','checkbox','String',
 item=[0 item(2)+item(4)+margin/8 parentitem(3)/2 2];
 handles.extractionLine_fileformat = uicontrol(handles.multip12,'Style','popupmenu','String',{'Excel file' 'Text file'},'Units','characters', 'HorizontalAlignment','left','Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Tag','extractionLine_fileformat','TooltipString','The format that the data is saved in');
 
+% !!! -->
 item=[0 item(2)+item(4)+margin/8 parentitem(3)/2 2];
-handles.save_data = uicontrol(handles.multip12,'Style','pushbutton','String','Export data','Units','characters', 'Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)],'Callback',@extract.save_data_Callback,'Tag','save_data','TooltipString','Extract data and save results to a text file');
+handles.save_data = uicontrol(handles.multip12,'Style','pushbutton','String','Export data', ...
+    'Units','characters', 'Position',[item(1)+margin parentitem(4)-item(4)-margin-item(2) item(3)-margin*2 item(4)], ...
+    'Callback',@extract.save_data_Callback,'Tag','save_data','TooltipString','Extract data and save results to a text file');
+% <--
 
 %% Multip13
 handles.multip13 = uipanel(MainWindow, 'Units','characters', 'Position', [0+margin Figure_Size(4)-panelheightpanels-margin panelwidth panelheightpanels],'title','Measure distance & angle (CTRL+T)', 'Tag','multip13','fontweight','bold');
