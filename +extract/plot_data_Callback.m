@@ -65,8 +65,8 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 				maptoget=plot.rescale_maps_nan(maptoget,0,currentframe);
 				[cx, cy, c] = improfile(maptoget,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
 				distance=linspace(0,length,size(c,1))';
-			case 11 %tangent
-            % case {11,12} %tangent, normal
+			% case 11 %tangent
+            case {11,12} %tangent, normal
 				if ~strcmp(extract_type,'extract_circle_series')
                     % !!! example -->
 					if size(resultslist,1)>6 %filtered exists
@@ -108,33 +108,59 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 					deltay=zeros(1,size(cx,2)-1);
 					laenge=zeros(1,size(cx,2)-1);
 					alpha=zeros(1,size(cx,2)-1);
-					sinalpha=zeros(1,size(cx,2)-1);
-					cosalpha=zeros(1,size(cx,2)-1);
-					for i=2:size(cx,2)
-						deltax(1,i)=cx(1,i)-cx(1,i-1);
-						deltay(1,i)=cy(1,i)-cy(1,i-1);
-						laenge(1,i)=sqrt(deltax(1,i)*deltax(1,i)+deltay(1,i)*deltay(1,i));
-                        alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
-						% % Kozlov N. -->
-                        % if extractwhat==11
-                        %     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
-                        % elseif extractwhat==12
-                        %     % turn 90 for the normal projection
-                        %     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)))+pi/2;
-                        % end
-                        % % <--
-						if deltay(1,i) < 0
-							sinalpha(1,i)=sin(alpha(1,i));
-						else
-							sinalpha(1,i)=sin(alpha(1,i))*-1;
-						end
-						cosalpha(1,i)=cos(alpha(1,i));
-					end
-					sinalpha(1,1)=sinalpha(1,2);
-					cosalpha(1,1)=cosalpha(1,2);
-					cu=cu.*cosalpha';
-					cv=cv.*sinalpha';
-					c=cu-cv;
+                    if extractwhat==11
+					    sinalpha=zeros(1,size(cx,2)-1);
+					    cosalpha=zeros(1,size(cx,2)-1);
+					    for i=2:size(cx,2)
+						    deltax(1,i)=cx(1,i)-cx(1,i-1);
+						    deltay(1,i)=cy(1,i)-cy(1,i-1);
+						    laenge(1,i)=sqrt(deltax(1,i)*deltax(1,i)+deltay(1,i)*deltay(1,i));
+                            alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
+						    % % Kozlov N. -->
+                            % if extractwhat==11
+                            %     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)));
+                            % elseif extractwhat==12
+                            %     % turn 90 for the normal projection
+                            %     alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)))+pi/2;
+                            % end
+                            % % <--
+						    if deltay(1,i) < 0
+							    sinalpha(1,i)=sin(alpha(1,i));
+						    else
+							    sinalpha(1,i)=sin(alpha(1,i))*-1;
+						    end
+						    cosalpha(1,i)=cos(alpha(1,i));
+					    end
+					    sinalpha(1,1)=sinalpha(1,2);
+					    cosalpha(1,1)=cosalpha(1,2);
+					    cu=cu.*cosalpha';
+					    cv=cv.*sinalpha';
+					    c=cu-cv;
+                    elseif extractwhat==12
+                        % Kozlov N. -->
+                        beta=zeros(1,size(cx,2)-1);
+                        sinbeta=zeros(1,size(cx,2)-1);
+				        cosbeta=zeros(1,size(cx,2)-1);
+				        for i=2:size(cx,2)
+					        deltax(1,i)=cx(1,i)-cx(1,i-1);
+					        deltay(1,i)=cy(1,i)-cy(1,i-1);
+                            laenge(1,i)=sqrt(deltax(1,i)^2+deltay(1,i)^2);
+                            if deltay(1,i) >= 0
+                                alpha(1,i)=acos(deltax(1,i)/laenge(1,i));
+                            else
+                                alpha(1,i)=2*pi-acos(deltax(1,i)/laenge(1,i));
+                            end
+                            beta(1,i)=alpha(1,i)+pi/2; % clockwise projection: y-downwards
+                            sinbeta(1,i)=sin(beta(1,i));
+                            cosbeta(1,i)=cos(beta(1,i));
+				        end
+				        sinbeta(1,1)=sinbeta(1,2);
+				        cosbeta(1,1)=cosbeta(1,2);
+				        cu=cu.*cosbeta';
+				        cv=cv.*sinbeta';
+				        c=cu+cv;
+                        % <--
+                    end
 					cx=cx';
 					cy=cy';
 					distance=linspace(0,length,size(cu,1))';
@@ -243,75 +269,73 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 						distance(m,:)=linspace(0,length(m),size(cu,2))'; % %in pixeln...
 					end
                 end
-            % TODO: -->
-            case 12 % normal to polyline (Kozlov N.)
-                % disp("Normal projection") % DEBUG
-                if size(resultslist,1)>6 %filtered exists
-					if size(resultslist,1)>10 && numel(resultslist{10,currentframe}) > 0 %smoothed exists
-						u=resultslist{10,currentframe};
-						v=resultslist{11,currentframe};
-						typevector=resultslist{9,currentframe};
-						if numel(typevector)==0%happens if user smoothes sth without NaN and without validation
-							typevector=resultslist{5,currentframe};
-						end
-					else
-						u=resultslist{7,currentframe};
-						if size(u,1)>1
-							v=resultslist{8,currentframe};
-							typevector=resultslist{9,currentframe};
-						else
-							u=resultslist{3,currentframe};
-							v=resultslist{4,currentframe};
-							typevector=resultslist{5,currentframe};
-						end
-					end
-				else
-					u=resultslist{3,currentframe};
-					v=resultslist{4,currentframe};
-					typevector=resultslist{5,currentframe};
-				end
-				calu=gui.retr('calu');calv=gui.retr('calv');
-				u=u*calu-gui.retr('subtr_u');
-				v=v*calv-gui.retr('subtr_v');
-
-				u=plot.rescale_maps_nan(u,0,currentframe);
-				v=plot.rescale_maps_nan(v,0,currentframe);
-
-				[cx, cy, cu] = improfile(u,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
-				cv = improfile(v,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
-				cx=cx';
-				cy=cy';
-				deltax=zeros(1,size(cx,2)-1);
-				deltay=zeros(1,size(cx,2)-1);
-				laenge=zeros(1,size(cx,2)-1);
-				alpha=zeros(1,size(cx,2)-1);
-                beta=zeros(1,size(cx,2)-1);
-				% sinalpha=zeros(1,size(cx,2)-1);
-				% cosalpha=zeros(1,size(cx,2)-1);
-                sinbeta=zeros(1,size(cx,2)-1);
-				cosbeta=zeros(1,size(cx,2)-1);
-				for i=2:size(cx,2)
-					deltax(1,i)=cx(1,i)-cx(1,i-1);
-					deltay(1,i)=cy(1,i)-cy(1,i-1);
-                    laenge(1,i)=sqrt(deltax(1,i)^2+deltay(1,i)^2);
-                    if deltay(1,i) >= 0
-                        alpha(1,i)=acos(deltax(1,i)/laenge(1,i));
-                    else
-                        alpha(1,i)=2*pi-acos(deltax(1,i)/laenge(1,i));
-                    end
-                    beta(1,i)=alpha(1,i)+pi/2; % clockwise projection: y-downwards
-                    sinbeta(1,i)=sin(beta(1,i));
-                    cosbeta(1,i)=cos(beta(1,i));
-				end
-				sinbeta(1,1)=sinbeta(1,2);
-				cosbeta(1,1)=cosbeta(1,2);
-				cu=cu.*cosbeta';
-				cv=cv.*sinbeta';
-				c=cu+cv;
-				cx=cx';
-				cy=cy';
-				distance=linspace(0,length,size(cu,1))';
-            % <--
+            % % TODO: -->
+            % case 12 % normal to polyline (Kozlov N.)
+            %     % disp("Normal projection") % DEBUG
+            %     if size(resultslist,1)>6 %filtered exists
+				% 	if size(resultslist,1)>10 && numel(resultslist{10,currentframe}) > 0 %smoothed exists
+					% 	u=resultslist{10,currentframe};
+					% 	v=resultslist{11,currentframe};
+					% 	typevector=resultslist{9,currentframe};
+					% 	if numel(typevector)==0%happens if user smoothes sth without NaN and without validation
+						% 	typevector=resultslist{5,currentframe};
+					% 	end
+				% 	else
+					% 	u=resultslist{7,currentframe};
+					% 	if size(u,1)>1
+						% 	v=resultslist{8,currentframe};
+						% 	typevector=resultslist{9,currentframe};
+					% 	else
+						% 	u=resultslist{3,currentframe};
+						% 	v=resultslist{4,currentframe};
+						% 	typevector=resultslist{5,currentframe};
+					% 	end
+				% 	end
+			% 	else
+				% 	u=resultslist{3,currentframe};
+				% 	v=resultslist{4,currentframe};
+				% 	typevector=resultslist{5,currentframe};
+			% 	end
+			% 	calu=gui.retr('calu');calv=gui.retr('calv');
+			% 	u=u*calu-gui.retr('subtr_u');
+			% 	v=v*calv-gui.retr('subtr_v');
+            % 
+			% 	u=plot.rescale_maps_nan(u,0,currentframe);
+			% 	v=plot.rescale_maps_nan(v,0,currentframe);
+            % 
+			% 	[cx, cy, cu] = improfile(u,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
+			% 	cv = improfile(v,extraction_coordinates_x,extraction_coordinates_y,round(nrpoints),'bicubic');
+			% 	cx=cx';
+			% 	cy=cy';
+			% 	deltax=zeros(1,size(cx,2)-1);
+			% 	deltay=zeros(1,size(cx,2)-1);
+			% 	laenge=zeros(1,size(cx,2)-1);
+			% 	alpha=zeros(1,size(cx,2)-1);
+            %     beta=zeros(1,size(cx,2)-1);
+            %     sinbeta=zeros(1,size(cx,2)-1);
+			% 	cosbeta=zeros(1,size(cx,2)-1);
+			% 	for i=2:size(cx,2)
+				% 	deltax(1,i)=cx(1,i)-cx(1,i-1);
+				% 	deltay(1,i)=cy(1,i)-cy(1,i-1);
+            %         laenge(1,i)=sqrt(deltax(1,i)^2+deltay(1,i)^2);
+            %         if deltay(1,i) >= 0
+            %             alpha(1,i)=acos(deltax(1,i)/laenge(1,i));
+            %         else
+            %             alpha(1,i)=2*pi-acos(deltax(1,i)/laenge(1,i));
+            %         end
+            %         beta(1,i)=alpha(1,i)+pi/2; % clockwise projection: y-downwards
+            %         sinbeta(1,i)=sin(beta(1,i));
+            %         cosbeta(1,i)=cos(beta(1,i));
+			% 	end
+			% 	sinbeta(1,1)=sinbeta(1,2);
+			% 	cosbeta(1,1)=cosbeta(1,2);
+			% 	cu=cu.*cosbeta';
+			% 	cv=cv.*sinbeta';
+			% 	c=cu+cv;
+			% 	cx=cx';
+			% 	cy=cy';
+			% 	distance=linspace(0,length,size(cu,1))';
+            % % <--
         end
 		%% Plotting
 		if ~strcmp(extract_type,'extract_circle_series') %user did not choose circle series
