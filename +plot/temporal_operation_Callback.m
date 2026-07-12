@@ -183,7 +183,6 @@ if isempty(resultslist)==0
 					%hier neue matrix mit ausgewÃ¤hlten frames!
 					eval(['umittelselected=umittel(:,:,[' str ']);']);
 					eval(['vmittelselected=vmittel(:,:,[' str ']);']);
-
 					if type==3
 						%Turbulent kinetic energy TKE, based on discussion
                         %with H.E. TOUHAMI, improved by Stefano M.
