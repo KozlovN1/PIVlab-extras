@@ -3,6 +3,11 @@
 
 *PIVlab is a free and open-source particle image velocimetry (PIV) software and is currently the most frequently cited PIV tool on the market. It can be used to calculate the velocity distribution within imported (or captured) images. It can also control [OPTOLUTION's lasers, cameras and synchronizers](https://www.optolution.com/en/products/particle-image-velocimetry-piv), and derive, display and export multiple parameters of the flow pattern. The simple graphical user interface makes PIV data acquisition and data post-processing fast and efficient.*
 
+**This fork:**
+* Calculation of the phase average (useful for oscillatory, periodic flows).
+* Extraction of the velocity profile, normal to the polyline.
+* [Example vieo](https://youtu.be/FH58jE-Vjws).
+
 **Download PIVlab:**
 *   as a free [stand-alone program for windows computers](https://github.com/Shrediquette/PIVlab/releases/latest/download/PIVlab_installer.exe) (all features, no requirements)
 *   as free [toolbox inside Matlab for every operating system](https://github.com/Shrediquette/PIVlab/releases/latest/download/PIVlab.mltbx) (all features, Matlab required)
