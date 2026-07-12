@@ -245,7 +245,7 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
                 end
             % TODO: -->
             case 12 % normal to polyline (Kozlov N.)
-                disp("Normal projection") % DEBUG
+                % disp("Normal projection") % DEBUG
                 if size(resultslist,1)>6 %filtered exists
 					if size(resultslist,1)>10 && numel(resultslist{10,currentframe}) > 0 %smoothed exists
 						u=resultslist{10,currentframe};
@@ -285,28 +285,29 @@ if size(resultslist,2)>=currentframe && numel(resultslist{1,currentframe})>0
 				deltay=zeros(1,size(cx,2)-1);
 				laenge=zeros(1,size(cx,2)-1);
 				alpha=zeros(1,size(cx,2)-1);
-				sinalpha=zeros(1,size(cx,2)-1);
-				cosalpha=zeros(1,size(cx,2)-1);
+                beta=zeros(1,size(cx,2)-1);
+				% sinalpha=zeros(1,size(cx,2)-1);
+				% cosalpha=zeros(1,size(cx,2)-1);
+                sinbeta=zeros(1,size(cx,2)-1);
+				cosbeta=zeros(1,size(cx,2)-1);
 				for i=2:size(cx,2)
 					deltax(1,i)=cx(1,i)-cx(1,i-1);
 					deltay(1,i)=cy(1,i)-cy(1,i-1);
-					laenge(1,i)=sqrt(deltax(1,i)^2+deltay(1,i)^2);
-					% turn 90 degrees -->
-                    alpha(1,i)=(acos(deltax(1,i)/laenge(1,i)))+pi/2;
-                    % <--
-					% if deltay(1,i) < 0
-					% 	sinalpha(1,i)=sin(alpha(1,i));
-					% else
-					% 	sinalpha(1,i)=sin(alpha(1,i))*-1;
-                    % end
-                    sinalpha(1,i)=sin(alpha(1,i));
-					cosalpha(1,i)=cos(alpha(1,i));
+                    laenge(1,i)=sqrt(deltax(1,i)^2+deltay(1,i)^2);
+                    if deltay(1,i) >= 0
+                        alpha(1,i)=acos(deltax(1,i)/laenge(1,i));
+                    else
+                        alpha(1,i)=2*pi-acos(deltax(1,i)/laenge(1,i));
+                    end
+                    beta(1,i)=alpha(1,i)+pi/2; % clockwise projection: y-downwards
+                    sinbeta(1,i)=sin(beta(1,i));
+                    cosbeta(1,i)=cos(beta(1,i));
 				end
-				sinalpha(1,1)=sinalpha(1,2);
-				cosalpha(1,1)=cosalpha(1,2);
-				cu=cu.*cosalpha';
-				cv=cv.*sinalpha';
-				c=cu-cv;
+				sinbeta(1,1)=sinbeta(1,2);
+				cosbeta(1,1)=cosbeta(1,2);
+				cu=cu.*cosbeta';
+				cv=cv.*sinbeta';
+				c=cu+cv;
 				cx=cx';
 				cy=cy';
 				distance=linspace(0,length,size(cu,1))';
