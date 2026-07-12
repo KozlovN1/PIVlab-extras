@@ -6,7 +6,7 @@
 **This fork:**
 * Calculation of the phase average (useful for oscillatory, periodic flows).
 * Extraction of the velocity profile, normal to the polyline.
-* [Example vieo](https://youtu.be/FH58jE-Vjws).
+* [Example video](https://youtu.be/FH58jE-Vjws).
 
 **Download PIVlab:**
 *   as a free [stand-alone program for windows computers](https://github.com/Shrediquette/PIVlab/releases/latest/download/PIVlab_installer.exe) (all features, no requirements)
