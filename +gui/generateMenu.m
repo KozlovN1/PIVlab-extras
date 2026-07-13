@@ -36,7 +36,7 @@ uimenu(m8,'Label','Image based validation','Callback',@validate.image_val_Callba
 m9 = uimenu(MainWindow,'Label','Plot');
 uimenu(m9,'Label','Spatial: Derive parameters / modify data','Callback',@plot.derivs_Callback,'Accelerator','D');
 % !!! menu element of interest -->
-uimenu(m9,'Label','Temporal: Derive parameters','Callback',@plot.temporal_derivs_Callback,'Accelerator','1');
+uimenu(m9,'Label','Temporal: Derive parameters','Callback',@plot.temporal_derivs_Callback,'Accelerator','R');
 % <--
 uimenu(m9,'Label','Modify plot appearance','Callback',@plot.modif_plot_Callback,'Accelerator','M');
 uimenu(m9,'Label','Streamlines','Callback',@plot.streamlines_Callback);

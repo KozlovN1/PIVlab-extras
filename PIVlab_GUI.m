@@ -44,7 +44,7 @@ if isempty(fh)
     handles = guihandles; %alle handles mit tag laden und ansprechbar machen
     guidata(MainWindow,handles)
     setappdata(0,'hgui',MainWindow);
-    version = '3.12.021';
+    version = '3.12.022';
     gui.put('PIVver', version);
     try
         warning off
